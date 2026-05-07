@@ -5,6 +5,7 @@ import 'package:disc_test/data/word_groups.dart';
 import 'package:disc_test/main.dart';
 import 'package:disc_test/models/answer.dart';
 import 'package:disc_test/models/word.dart';
+import 'package:disc_test/services/pattern_matcher.dart';
 import 'package:disc_test/services/scoring_service.dart';
 
 void main() {
@@ -49,5 +50,41 @@ void main() {
     expect(mostSum, 24);
     expect(leastSum, 24);
     expect(compSum, 0);
+  });
+
+  test('matchPattern: pure-D composite returns Director', () {
+    final composite = <DiscCategory, int>{
+      DiscCategory.d: 18,
+      DiscCategory.i: -6,
+      DiscCategory.s: -6,
+      DiscCategory.c: -6,
+    };
+    final pattern = matchPattern(composite);
+    expect(pattern.id, 1);
+    expect(pattern.name, 'Director');
+  });
+
+  test('matchPattern: scores within midrange return Level pattern', () {
+    final composite = <DiscCategory, int>{
+      DiscCategory.d: 2,
+      DiscCategory.i: -3,
+      DiscCategory.s: 1,
+      DiscCategory.c: 0,
+    };
+    final pattern = matchPattern(composite);
+    expect(pattern.id, 21);
+    expect(pattern.name, 'Level Patterns');
+  });
+
+  test('matchPattern: D and I high with S low returns an I-quadrant pattern',
+      () {
+    final composite = <DiscCategory, int>{
+      DiscCategory.d: 6,
+      DiscCategory.i: 12,
+      DiscCategory.s: -10,
+      DiscCategory.c: 2,
+    };
+    final pattern = matchPattern(composite);
+    expect(pattern.quadrant, DiscCategory.i);
   });
 }

@@ -2,7 +2,15 @@
   "permissions": {
     "allow": [
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\pohbo\\\\Flutter\\\\disc_test\" -Force | Select-Object Name, @{Name=\"Type\";Expression={if\\($_.PSIsContainer\\) {\"DIR\"} else {\"FILE\"}}} | Format-Table -AutoSize)",
-      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\pohbo\\\\Flutter\\\\disc_test\\\\lib\" -Recurse | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\pohbo\\\\Flutter\\\\disc_test\\\\\", \"\"\\) } | Sort-Object)"
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\pohbo\\\\Flutter\\\\disc_test\\\\lib\" -Recurse | Select-Object FullName | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\pohbo\\\\Flutter\\\\disc_test\\\\\", \"\"\\) } | Sort-Object)",
+      "PowerShell(flutter *)",
+      "PowerShell(Test-Path *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\pohbo\\\\AppData\\\\Local\\\\Pub\\\\Cache\\\\hosted\\\\pub.dev\" -Directory | Where-Object { $_.Name -match \"^p\" } | Select-Object -First 20 | ForEach-Object { $_.Name })",
+      "Bash(grep -n \"\\\\\\\\\\\\\\\\'\" lib/data/disc_patterns.dart)",
+      "Bash(ls -la .github)",
+      "Bash(ls firebase.json .firebaserc netlify.toml vercel.json wrangler.toml _redirects CNAME)",
+      "Bash(git remote *)",
+      "PowerShell(firebase *)"
     ]
   }
 }

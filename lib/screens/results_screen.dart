@@ -7,9 +7,12 @@ import '../models/disc_result.dart';
 import '../models/word.dart';
 import '../services/export_service.dart';
 import '../services/html_report_builder.dart';
+import '../services/pattern_matcher.dart';
 import '../services/pdf_report_builder.dart';
 import '../widgets/disc_bar_chart.dart';
 import '../widgets/disc_colors.dart';
+import '../widgets/disc_pattern_card.dart';
+import '../widgets/disc_score_plot.dart';
 
 class ResultsScreen extends StatelessWidget {
   final DiscResult result;
@@ -74,6 +77,7 @@ class ResultsScreen extends StatelessWidget {
     final dominant = result.dominantComposite;
     final profile = discProfiles[dominant]!;
     final dominantColor = discColors[dominant]!;
+    final pattern = matchPattern(result.composite);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,7 +112,11 @@ class ResultsScreen extends StatelessWidget {
           child: ListView(
             padding: const EdgeInsets.all(24),
             children: [
-              _DominantHeader(profile: profile, color: dominantColor),
+              _DominantHeader(
+                profile: profile,
+                color: dominantColor,
+                patternName: pattern.name,
+              ),
               const SizedBox(height: 24),
               Text('Scores', style: theme.textTheme.titleLarge),
               const SizedBox(height: 12),
@@ -130,6 +138,17 @@ class ResultsScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
+              Text('Plot your scores', style: theme.textTheme.titleLarge),
+              const SizedBox(height: 8),
+              Text(
+                'PDF-style line plots for the MOST, LEAST, and COMPOSITE columns of the Scoring Summary.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 16),
+              _ScorePlots(result: result),
+              const SizedBox(height: 24),
               _SanityCheckCard(result: result),
               const SizedBox(height: 24),
               Text('What this means', style: theme.textTheme.titleLarge),
@@ -143,6 +162,20 @@ class ResultsScreen extends StatelessWidget {
               Text(profile.overview, style: theme.textTheme.bodyLarge),
               const SizedBox(height: 24),
               _StrengthsWeaknesses(profile: profile),
+              const SizedBox(height: 32),
+              Text(
+                'Your representative DISC pattern',
+                style: theme.textTheme.titleLarge,
+              ),
+              const SizedBox(height: 8),
+              Text(
+                'The COMPOSITE shape that most closely matches one of the 21 representative patterns from the Personal DiSCernment Inventory.',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 12),
+              DiscPatternCard(pattern: pattern),
               const SizedBox(height: 32),
               Center(
                 child: Wrap(
@@ -187,11 +220,78 @@ class ResultsScreen extends StatelessWidget {
 
 enum _ExportFormat { html, pdf }
 
+class _ScorePlots extends StatelessWidget {
+  final DiscResult result;
+
+  const _ScorePlots({required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    final plots = [
+      DiscScorePlot(
+        title: 'MOST',
+        scores: result.most,
+        minValue: 0,
+        maxValue: 24,
+      ),
+      DiscScorePlot(
+        title: 'LEAST',
+        scores: result.least,
+        minValue: 0,
+        maxValue: 24,
+      ),
+      DiscScorePlot(
+        title: 'COMPOSITE',
+        scores: result.composite,
+        minValue: -24,
+        maxValue: 24,
+        showZeroLine: true,
+      ),
+    ];
+
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final stacked = constraints.maxWidth < 680;
+            if (stacked) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  for (var i = 0; i < plots.length; i++) ...[
+                    plots[i],
+                    if (i < plots.length - 1) const SizedBox(height: 20),
+                  ],
+                ],
+              );
+            }
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var i = 0; i < plots.length; i++) ...[
+                  Expanded(child: plots[i]),
+                  if (i < plots.length - 1) const SizedBox(width: 16),
+                ],
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
 class _DominantHeader extends StatelessWidget {
   final DiscProfile profile;
   final Color color;
+  final String patternName;
 
-  const _DominantHeader({required this.profile, required this.color});
+  const _DominantHeader({
+    required this.profile,
+    required this.color,
+    required this.patternName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +335,7 @@ class _DominantHeader extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '${profile.category.fullName} (${profile.category.letter})',
+                    '${profile.category.fullName} (${profile.category.letter}) — The $patternName',
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.w800,
                     ),

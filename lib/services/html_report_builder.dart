@@ -3,6 +3,7 @@ import '../models/answer.dart';
 import '../models/disc_result.dart';
 import '../models/word.dart';
 import '../models/word_group.dart';
+import 'pattern_matcher.dart';
 
 String buildHtmlReport(
   DiscResult result, {
@@ -16,6 +17,9 @@ String buildHtmlReport(
       '${timestamp.day.toString().padLeft(2, '0')}';
   final dominant = result.dominantComposite;
   final profile = discProfiles[dominant]!;
+  final pattern = matchPattern(result.composite);
+  final patternAccent =
+      pattern.quadrant == null ? '#173d74' : _colorFor(pattern.quadrant!);
 
   String row(String label, Map<DiscCategory, int> values) {
     return '<tr><th>$label</th>'
@@ -47,6 +51,108 @@ String buildHtmlReport(
       '<text x="${x + barWidth / 2}" y="${chartHeight + 6}" text-anchor="middle" font-size="13" fill="#4b5563">${value > 0 ? '+' : ''}$value</text>',
     );
   }
+
+  final plotsSvg = StringBuffer();
+  void writePlot(
+    String title,
+    Map<DiscCategory, int> scores,
+    int minValue,
+    int maxValue, {
+    bool showZeroLine = false,
+  }) {
+    const plotW = 220.0;
+    const plotH = 220.0;
+    const padLeft = 32.0;
+    const padRight = 12.0;
+    const padTop = 16.0;
+    const padBottom = 12.0;
+    final plotLeft = padLeft;
+    final plotRight = plotW - padRight;
+    final plotTop = padTop;
+    final plotBottom = plotH - padBottom;
+    final plotInnerW = plotRight - plotLeft;
+    final plotInnerH = plotBottom - plotTop;
+    final range = (maxValue - minValue).toDouble();
+
+    double yFor(num v) {
+      final clamped = v.clamp(minValue, maxValue).toDouble();
+      return plotBottom - ((clamped - minValue) / range) * plotInnerH;
+    }
+
+    final tickStep = range <= 12 ? 2 : (range <= 30 ? 4 : 8);
+    final ticks = StringBuffer();
+    for (var v = minValue; v <= maxValue; v += tickStep) {
+      final y = yFor(v).toStringAsFixed(1);
+      ticks.writeln(
+        '<line x1="$plotLeft" y1="$y" x2="$plotRight" y2="$y" stroke="#e5e7eb" stroke-width="1" />'
+        '<text x="${plotLeft - 4}" y="${(double.parse(y) + 3.5).toStringAsFixed(1)}" text-anchor="end" font-size="10" fill="#6b7280">${showZeroLine && v > 0 ? '+$v' : '$v'}</text>',
+      );
+    }
+
+    String zeroLine = '';
+    if (showZeroLine && minValue < 0 && maxValue > 0) {
+      final y = yFor(0).toStringAsFixed(1);
+      zeroLine =
+          '<line x1="$plotLeft" y1="$y" x2="$plotRight" y2="$y" stroke="#9ca3af" stroke-width="1.5" />';
+    }
+
+    final categories = DiscCategory.values;
+    final colSpacing = plotInnerW / categories.length;
+    final dotXs = <double>[
+      for (var i = 0; i < categories.length; i++)
+        plotLeft + colSpacing * (i + 0.5),
+    ];
+
+    final colLines = StringBuffer();
+    for (final x in dotXs) {
+      colLines.writeln(
+        '<line x1="${x.toStringAsFixed(1)}" y1="$plotTop" x2="${x.toStringAsFixed(1)}" y2="$plotBottom" stroke="#e5e7eb" stroke-width="1" />',
+      );
+    }
+
+    final points = <String>[
+      for (var i = 0; i < categories.length; i++)
+        '${dotXs[i].toStringAsFixed(1)},${yFor(scores[categories[i]]!).toStringAsFixed(1)}',
+    ];
+
+    final dots = StringBuffer();
+    for (var i = 0; i < categories.length; i++) {
+      final parts = points[i].split(',');
+      dots.writeln(
+        '<circle cx="${parts[0]}" cy="${parts[1]}" r="6" fill="${_colorFor(categories[i])}" stroke="#ffffff" stroke-width="1.5" />',
+      );
+    }
+
+    final labels = StringBuffer();
+    for (var i = 0; i < categories.length; i++) {
+      final c = categories[i];
+      final v = scores[c]!;
+      final display = showZeroLine && v > 0 ? '+$v' : '$v';
+      labels.writeln(
+        '<text x="${dotXs[i].toStringAsFixed(1)}" y="${(plotH + 14).toStringAsFixed(1)}" text-anchor="middle" font-size="12" font-weight="700" fill="${_colorFor(c)}">${c.letter}</text>'
+        '<text x="${dotXs[i].toStringAsFixed(1)}" y="${(plotH + 28).toStringAsFixed(1)}" text-anchor="middle" font-size="11" fill="#4b5563">$display</text>',
+      );
+    }
+
+    plotsSvg.writeln('''
+<div class="plot">
+  <div class="plot-title">$title</div>
+  <svg viewBox="0 0 $plotW ${plotH + 36}" width="100%" role="img" aria-label="$title score plot">
+    <rect x="$plotLeft" y="$plotTop" width="$plotInnerW" height="$plotInnerH" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+    ${ticks.toString()}
+    ${colLines.toString()}
+    $zeroLine
+    <polyline points="${points.join(' ')}" fill="none" stroke="#64748b" stroke-width="2" />
+    ${dots.toString()}
+    ${labels.toString()}
+  </svg>
+</div>
+''');
+  }
+
+  writePlot('MOST', result.most, 0, 24);
+  writePlot('LEAST', result.least, 0, 24);
+  writePlot('COMPOSITE', result.composite, -24, 24, showZeroLine: true);
 
   final strengthsList = profile.strengths.map((item) => '<li>$item</li>').join();
   final weaknessesList =
@@ -169,11 +275,39 @@ String buildHtmlReport(
     color: var(--muted);
     background: #fbfcfe;
   }
+  .plots {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .plot {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 12px 12px 18px;
+    text-align: center;
+  }
+  .plot-title {
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+    color: var(--ink);
+  }
+  .pattern-card {
+    border-left: 6px solid $patternAccent;
+  }
+  .pattern-section h4 {
+    margin: 14px 0 4px;
+    color: var(--muted);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
   @media (max-width: 720px) {
     main { padding: 24px 16px 40px; }
     .dominant { grid-template-columns: 1fr; }
     .badge { width: 64px; height: 64px; border-radius: 18px; }
-    .meta-grid, .lists { grid-template-columns: 1fr; }
+    .meta-grid, .lists, .plots { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -187,7 +321,7 @@ String buildHtmlReport(
     <div class="badge">${profile.category.letter}</div>
     <div>
       <p class="subtle">Your dominant style</p>
-      <h2 style="margin-top:0;">${profile.category.fullName} (${profile.category.letter})</h2>
+      <h2 style="margin-top:0;">${profile.category.fullName} (${profile.category.letter}) &mdash; The ${pattern.name}</h2>
       <p>${profile.otherTerms}</p>
     </div>
   </section>
@@ -221,6 +355,12 @@ String buildHtmlReport(
     </blockquote>
   </section>
 
+  <h2>Plot Your Scores</h2>
+  <p class="subtle">PDF-style line plots for the MOST, LEAST and COMPOSITE columns.</p>
+  <section class="plots">
+    ${plotsSvg.toString()}
+  </section>
+
   <h2>Interpretation</h2>
   <section class="card">
     <dl class="meta-grid">
@@ -249,6 +389,20 @@ String buildHtmlReport(
     <div class="card">
       <h3 style="margin-top:0;">Possible weaknesses</h3>
       <ul>$weaknessesList</ul>
+    </div>
+  </section>
+
+  <h2>Your Representative DISC Pattern</h2>
+  <p class="subtle">The COMPOSITE shape that most closely matches one of the 21 representative patterns from the Personal DiSCernment Inventory.</p>
+  <section class="card pattern-card">
+    <h3 style="margin-top:0;">${pattern.id}. ${pattern.name}${pattern.quadrant == null ? '' : ' &middot; ${pattern.quadrant!.fullName} (${pattern.quadrant!.letter})'}</h3>
+    <div class="pattern-section">
+      <h4>Outstanding Traits</h4>
+      <p>${pattern.outstandingTraits}</p>
+      <h4>Basic Desires and Internal Drive</h4>
+      <p>${pattern.internalDrive}</p>
+      <h4>Need for Possible Improvement</h4>
+      <p>${pattern.improvement}</p>
     </div>
   </section>
 
