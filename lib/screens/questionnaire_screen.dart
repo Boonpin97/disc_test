@@ -19,7 +19,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       List.generate(wordGroups.length, (_) => const Answer());
   late final List<GlobalKey> _cardKeys =
       List.generate(wordGroups.length, (_) => GlobalKey());
-  final Set<int> _definitionIndexes = <int>{};
+  final Set<int> _definitionIndexes = Set<int>.from(
+    Iterable<int>.generate(wordGroups.length),
+  );
 
   int get _answeredCount => _answers.where((answer) => answer.isComplete).length;
   bool get _allAnswered => _answeredCount == wordGroups.length;

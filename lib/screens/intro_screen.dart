@@ -70,7 +70,7 @@ class IntroScreen extends StatelessWidget {
                       ),
                       const _Bullet(
                         icon: Icons.info_outline,
-                        text: 'Click "Show definition" if a word is unfamiliar',
+                        text: 'Definitions are shown by default, and you can hide them if needed',
                       ),
                       const SizedBox(height: 28),
                       Divider(
