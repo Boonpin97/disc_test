@@ -83,6 +83,16 @@ class WordGroupCard extends StatelessWidget {
                   ),
               ],
             ),
+            if (groupIndex == 0) ...[
+              const SizedBox(height: 10),
+              Text(
+                'Each question shows 4 words. Pick 1 word that feels MOST (M) like you and 1 word that feels LEAST (L) like you. Don\'t overthink it, just choose your first instinct.',
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                  height: 1.4,
+                ),
+              ),
+            ],
             const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
