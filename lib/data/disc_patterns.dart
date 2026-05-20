@@ -134,10 +134,10 @@ const List<DiscPattern> discPatterns = [
     name: 'Negotiator',
     quadrant: DiscCategory.i,
     signature: {
-      DiscCategory.d: 1,
+      DiscCategory.d: 0,
       DiscCategory.i: 2,
-      DiscCategory.s: -1,
-      DiscCategory.c: 0,
+      DiscCategory.s: 1,
+      DiscCategory.c: -1,
     },
     outstandingTraits:
         'Other people view you as modest, energetic, enthusiastic, active, and diplomatic. More tactful than pushy, you are an incurable optimist and are cheerful, talkative, and at home with strangers. You use words to dispel gloom and doubt. You handle small talk smoothly and low-pressure situations well, and easily make your own openings in conversation. You have the ability to create and maintain a pleasant atmosphere of goodwill, both for yourself and your company. You are smooth and tactful, easy-going and smiling, and are very comfortable with a large and diverse circle of acquaintances and associates.',
@@ -151,9 +151,9 @@ const List<DiscPattern> discPatterns = [
     name: 'Motivator',
     quadrant: DiscCategory.i,
     signature: {
-      DiscCategory.d: 1,
+      DiscCategory.d: 2,
       DiscCategory.i: 2,
-      DiscCategory.s: 0,
+      DiscCategory.s: -1,
       DiscCategory.c: -1,
     },
     outstandingTraits:

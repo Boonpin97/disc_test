@@ -87,4 +87,30 @@ void main() {
     final pattern = matchPattern(composite);
     expect(pattern.quadrant, DiscCategory.i);
   });
+
+  test('matchPattern: equal D and I with low S/C returns Motivator', () {
+    final composite = <DiscCategory, int>{
+      DiscCategory.d: 12,
+      DiscCategory.i: 12,
+      DiscCategory.s: -6,
+      DiscCategory.c: -6,
+    };
+
+    final pattern = matchPattern(composite);
+
+    expect(pattern.name, 'Motivator');
+  });
+
+  test('matchPattern: I over D with low S returns Persuader', () {
+    final composite = <DiscCategory, int>{
+      DiscCategory.d: 6,
+      DiscCategory.i: 12,
+      DiscCategory.s: -6,
+      DiscCategory.c: 0,
+    };
+
+    final pattern = matchPattern(composite);
+
+    expect(pattern.name, 'Persuader');
+  });
 }
