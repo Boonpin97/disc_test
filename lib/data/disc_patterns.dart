@@ -10,20 +10,12 @@ class DiscPattern {
   final int id;
   final String name;
   final DiscCategory? quadrant;
-  final Map<DiscCategory, int> signature;
+  final Map<DiscCategory, double> signature;
   final String outstandingTraits;
   final String internalDrive;
   final String improvement;
 
-  const DiscPattern({
-    required this.id,
-    required this.name,
-    required this.quadrant,
-    required this.signature,
-    required this.outstandingTraits,
-    required this.internalDrive,
-    required this.improvement,
-  });
+  const DiscPattern({required this.id, required this.name, required this.quadrant, required this.signature, required this.outstandingTraits, required this.internalDrive, required this.improvement});
 }
 
 const List<DiscPattern> discPatterns = [
@@ -31,12 +23,7 @@ const List<DiscPattern> discPatterns = [
     id: 1,
     name: 'Director',
     quadrant: DiscCategory.d,
-    signature: {
-      DiscCategory.d: 2,
-      DiscCategory.i: -1,
-      DiscCategory.s: -1,
-      DiscCategory.c: -1,
-    },
+    signature: {DiscCategory.d: 2, DiscCategory.i: -1.2, DiscCategory.s: -1.4, DiscCategory.c: -1.2},
     outstandingTraits:
         'Other people see you as coldly aggressive, analytical, impatient, and independent. You are inwardly-driven and try hard to overcome obstacles and reach your goals, and those goals are often obsessions. You like difficult problems that you can overcome with brain-power, logic, and tactics. You are very factual, cool, and competitive, and you want to run the show your own way. You are eager to accept responsibility and make decisions on your own.',
     internalDrive:
@@ -48,12 +35,7 @@ const List<DiscPattern> discPatterns = [
     id: 2,
     name: 'Entrepreneur',
     quadrant: DiscCategory.d,
-    signature: {
-      DiscCategory.d: 2,
-      DiscCategory.i: 1,
-      DiscCategory.s: -1,
-      DiscCategory.c: -2,
-    },
+    signature: {DiscCategory.d: 2, DiscCategory.i: 1, DiscCategory.s: -1.2, DiscCategory.c: -2},
     outstandingTraits:
         'Aggressive, persuasive, active, and extremely independent: all these characterize you as an entrepreneur. You are a supreme individualist: cocky, energetic, and persistent. You are incurably venturesome and will try anything once. Your desire for power combines with stubborn determination to control both events and people. You act decisively and positively and move ahead without consultation or conference. Your impatience results in quick action, instant boredom, and an itch for greener pastures. You are versatile, flexible, and self-motivated, with a great sense of urgency and a high tolerance for pressure.',
     internalDrive:
@@ -65,12 +47,7 @@ const List<DiscPattern> discPatterns = [
     id: 3,
     name: 'Organizer',
     quadrant: DiscCategory.d,
-    signature: {
-      DiscCategory.d: 2,
-      DiscCategory.i: 1,
-      DiscCategory.s: -2,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: 1.8, DiscCategory.i: 1.2, DiscCategory.s: -1.8, DiscCategory.c: -1.2},
     outstandingTraits:
         'You are aggressive, persuasive, active, and independent — an action-oriented self-starter who drives for goals regardless of obstacles. Giving up or giving in is unthinkable. You are a prime mover who loves competition. You prod or persuade, compliment or needle, exhort or drive, depending on the situation. You tend to demand first and ask second, and your love of power primes you for top roles; pride provides the impetus to take risks and implement bold plans. In favourable environments, you are friendly; in antagonistic ones, you are tough.',
     internalDrive:
@@ -82,12 +59,7 @@ const List<DiscPattern> discPatterns = [
     id: 4,
     name: 'Pioneer',
     quadrant: DiscCategory.d,
-    signature: {
-      DiscCategory.d: 2,
-      DiscCategory.i: 0,
-      DiscCategory.s: -1,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: 1.8, DiscCategory.i: -1.2, DiscCategory.s: -1.6, DiscCategory.c: 1.2},
     outstandingTraits:
         'People see you as an aggressive, factual, impatient, systematic person. You respond quickly to a challenge with mobility and flexibility. You are a versatile self-starter who is not satisfied with just any answer; you want the best answer. You try to avoid unnecessary risk or trouble. You are sensitive to nuances and to look for hidden meanings. Generally, you need confirmation of the correctness of your action or decision, but in a crucial situation you will tend to go with your intuition. You are logical, critical, and incisive in your approach to attaining goals. You are challenged by problems requiring original and analytical effort.',
     internalDrive:
@@ -99,12 +71,7 @@ const List<DiscPattern> discPatterns = [
     id: 5,
     name: 'Cooperator',
     quadrant: DiscCategory.d,
-    signature: {
-      DiscCategory.d: -2,
-      DiscCategory.i: 0,
-      DiscCategory.s: 1,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: -1.6, DiscCategory.i: 1.1, DiscCategory.s: 1.3, DiscCategory.c: 1.2},
     outstandingTraits:
         'Others see you as modest, sociable, predictable, and co-operative. You tend to be careful and conservative and are generally willing to modify your position in order to achieve your goals. The low level of D in your makeup leads you to minimise risks by careful investigation. You prefer an atmosphere free from antagonism and desire harmony. You are steady and consistent, and you prefer to deal with one project at a time with the same person. You will usually direct your skills and experience into areas requiring depth and specialisation. Steady under most pressures, you strive to stabilise your environment, and you react negatively to changes. You are poised and cordial and can create and maintain an atmosphere of goodwill.',
     internalDrive:
@@ -116,12 +83,7 @@ const List<DiscPattern> discPatterns = [
     id: 6,
     name: 'Affiliator',
     quadrant: DiscCategory.i,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: 2,
-      DiscCategory.s: 0,
-      DiscCategory.c: -1,
-    },
+    signature: {DiscCategory.d: -0.2, DiscCategory.i: 2, DiscCategory.s: -1, DiscCategory.c: -1.2},
     outstandingTraits:
         'People see you as modest, outgoing, active, and independent. You strive to make your environment favourable and friendly. You try to make a good first impression and sell yourself, and you enjoy doing favours for people. Optimistic and enthusiastic, you talk well and at length. You participate actively and exhibit self-confidence. You prefer to persuade people rather than command or direct them, motivating others by teamwork and togetherness.',
     internalDrive:
@@ -133,12 +95,7 @@ const List<DiscPattern> discPatterns = [
     id: 7,
     name: 'Negotiator',
     quadrant: DiscCategory.i,
-    signature: {
-      DiscCategory.d: 0,
-      DiscCategory.i: 2,
-      DiscCategory.s: 1,
-      DiscCategory.c: -1,
-    },
+    signature: {DiscCategory.d: -1.2, DiscCategory.i: 1.8, DiscCategory.s: -1.2, DiscCategory.c: 1.8},
     outstandingTraits:
         'Other people view you as modest, energetic, enthusiastic, active, and diplomatic. More tactful than pushy, you are an incurable optimist and are cheerful, talkative, and at home with strangers. You use words to dispel gloom and doubt. You handle small talk smoothly and low-pressure situations well, and easily make your own openings in conversation. You have the ability to create and maintain a pleasant atmosphere of goodwill, both for yourself and your company. You are smooth and tactful, easy-going and smiling, and are very comfortable with a large and diverse circle of acquaintances and associates.',
     internalDrive:
@@ -150,12 +107,7 @@ const List<DiscPattern> discPatterns = [
     id: 8,
     name: 'Motivator',
     quadrant: DiscCategory.i,
-    signature: {
-      DiscCategory.d: 2,
-      DiscCategory.i: 2,
-      DiscCategory.s: -1,
-      DiscCategory.c: -1,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: 2, DiscCategory.s: -2, DiscCategory.c: -1},
     outstandingTraits:
         'As a Motivator, you are verbally aggressive, outgoing, on-the-go, impatient, and independent. You are very much a social animal. You like to play but know when to work. Both business and social activities involve you with people. You get along well with, and handily motivate, all types of people. Behind your friendliness, however, is a determined push for results. Having natural charisma, you can maintain agreeableness even while disagreeing. You can joke about yourself, and you try not to hurt anyone intentionally. Under pressure, you stand up for what is right.',
     internalDrive:
@@ -167,12 +119,7 @@ const List<DiscPattern> discPatterns = [
     id: 9,
     name: 'Persuader',
     quadrant: DiscCategory.i,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: 2,
-      DiscCategory.s: -1,
-      DiscCategory.c: 0,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: 2, DiscCategory.s: -1, DiscCategory.c: -1},
     outstandingTraits:
         'Others view you as positive, persuasive, alert, and independent. You are a direct-action extrovert who is goal-minded and self-motivated. You thrive on taking risks. You are friendly but argumentative and persistent in pursuit of your ends. To you, talking is more important than listening; you tend to dominate the social situation as well as the business environment. You get going verbally, and things just seem to pop into your head and out of your mouth. But your basic empathy for people often overrides your desire to win and stand out above the rest. Your self-esteem is as strong as your desire for acceptance.',
     internalDrive:
@@ -184,12 +131,7 @@ const List<DiscPattern> discPatterns = [
     id: 10,
     name: 'Strategist',
     quadrant: DiscCategory.i,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: 1,
-      DiscCategory.s: -1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: 1, DiscCategory.s: -1, DiscCategory.c: 2},
     outstandingTraits:
         'People see you as a positive, cool, steady, systematic person. You are direct and straightforward, telling it like it is. You are intellectually curious and challenged by difficult problems requiring brain power and logical analysis. Patient, controlled, moderate, and deliberate, you prefer working with things rather than having to influence people. You are reserved and reflective, and you try to avoid unnecessary risk or trouble. You are conventional, usually diplomatic, often worrisome. You are rarely satisfied in your search for the best answer. You want to achieve, but you also want to be right. Your equal striving for accomplishment and quality often leads others to see you as a perfectionist.',
     internalDrive:
@@ -201,12 +143,7 @@ const List<DiscPattern> discPatterns = [
     id: 11,
     name: 'Persister',
     quadrant: DiscCategory.s,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: 1,
-      DiscCategory.s: 2,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: -1, DiscCategory.i: 1, DiscCategory.s: 2, DiscCategory.c: 1},
     outstandingTraits:
         'People see you as a modest, sociable, dependable, determined person. You are not easily swayed once your mind has been made up on any matter. You set your own pace and stick with it. You are a steady, consistent individual who prefers to deal with one thing at a time. You are apt to direct your skills and experience into areas requiring depth and specialisation. Steady under most pressure, you strive to stabilise your environment and react negatively to changes in it. You are a patient and controlled person who moves with moderation and deliberateness. Even under stress, you will usually project a relatively unruffled, unconcerned appearance. You generally approach most situations with care and concentration.',
     internalDrive:
@@ -218,12 +155,7 @@ const List<DiscPattern> discPatterns = [
     id: 12,
     name: 'Investigator',
     quadrant: DiscCategory.s,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: -1,
-      DiscCategory.s: 1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: -1, DiscCategory.s: 1, DiscCategory.c: 2},
     outstandingTraits:
         'Others view you as determined, logical, tenacious, dogged, suspicious, unhurried, and stubborn. Amiable but not hesitant to voice opinions, you like to follow leads, chase clues, dig for facts, and uncover hidden meanings. You analyse problems and evaluate circumstances objectively and dispassionately. You dominate with patience. You are results-oriented without a sense of urgency. Your effective performance is more the result of long, hard work rather than flashes of insight or inspiration.',
     internalDrive:
@@ -235,12 +167,7 @@ const List<DiscPattern> discPatterns = [
     id: 13,
     name: 'Specialist',
     quadrant: DiscCategory.s,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: -1,
-      DiscCategory.s: 2,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: -1, DiscCategory.i: -1, DiscCategory.s: 2, DiscCategory.c: 1},
     outstandingTraits:
         'As a Specialist, you appear to others as quiet, amicable, predictable, self-controlled, practical, and down-to-earth. You seek the familiar and maintain relationships with a few relatively close friends. You are cool-headed, reflective, and considerate, and you "wear well" with others. Soft-spoken, unexcitable, easy-going and relaxed, you proceed at your own deliberate pace, and you perform consistently and steadily.',
     internalDrive:
@@ -252,12 +179,7 @@ const List<DiscPattern> discPatterns = [
     id: 14,
     name: 'Advisor',
     quadrant: DiscCategory.s,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: 1,
-      DiscCategory.s: 2,
-      DiscCategory.c: -1,
-    },
+    signature: {DiscCategory.d: -1, DiscCategory.i: 1, DiscCategory.s: 2, DiscCategory.c: -1},
     outstandingTraits:
         'Others see you as easy-going, friendly, relaxed, and independent. You are a nice person who poses no threat to and, consequently, are impossible not to like. People come to you with their problems because you like people and are willing to listen. If you have any suggestions, you will offer them in an indirect, offhand way. People are naturally drawn to you because of your warmth, sympathy, empathy, and understanding. Your self-confidence and modesty, poise and mildness, persistence, and devotion to people all combine to make you likeable.',
     internalDrive:
@@ -269,12 +191,7 @@ const List<DiscPattern> discPatterns = [
     id: 15,
     name: 'Whirlwind',
     quadrant: DiscCategory.s,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: 1,
-      DiscCategory.s: -2,
-      DiscCategory.c: 1,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: 1, DiscCategory.s: -2, DiscCategory.c: 1},
     outstandingTraits:
         'People see you as positive, sociable, hyperactive, and systematic. You are impatient for quick results, react rapidly, display boredom quickly, are self-motivated, and sometimes irritable. You are versatile with shifting goals, new projects, and new methods, and you win people when you want to with persuasiveness and optimism. You can be diplomatic and precise on one hand, restless and discontented on the other. You are not happy until major events or others confirm the correctness of your action or decision. You want to achieve, but you also want to be right. In your daily activities, you strive equally for accomplishment and quality.',
     internalDrive:
@@ -286,12 +203,7 @@ const List<DiscPattern> discPatterns = [
     id: 16,
     name: 'Perfectionist',
     quadrant: DiscCategory.c,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: -1,
-      DiscCategory.s: -1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: -1, DiscCategory.i: -1, DiscCategory.s: -1, DiscCategory.c: 2},
     outstandingTraits:
         'People see you as conservative, logical, alert, and conscientious. You are apt to be diplomatic and contented on the one hand, and restless and discontented on the other. You are sensitive to nuances and alert to possible hidden meanings and ulterior motives. You are reserved and reflective, and you want to avoid unnecessary risk or trouble. You are reliable, precise, and tactful, and you want to be a stickler for details, an enforcer of established rules. You are thorough and fore-sighted.',
     internalDrive:
@@ -303,12 +215,7 @@ const List<DiscPattern> discPatterns = [
     id: 17,
     name: 'Analyst',
     quadrant: DiscCategory.c,
-    signature: {
-      DiscCategory.d: -1,
-      DiscCategory.i: -1,
-      DiscCategory.s: 1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: -1, DiscCategory.i: -1, DiscCategory.s: 1, DiscCategory.c: 2},
     outstandingTraits:
         'People see you as a reliable, factual, steady, open-minded person. You tend to be a stickler for system and order. You make decisions based on proven precedent and known facts. In all your activity, you try meticulously to live up to high standards. You are diplomatic and precise, and you try to avoid unnecessary risk or trouble. You are not at ease until the correctness of your actions and decisions have been confirmed. You are sensitive to possible hidden meanings and ulterior motives. You are logical, critical, and incisive in your approach to attaining goals.',
     internalDrive:
@@ -320,12 +227,7 @@ const List<DiscPattern> discPatterns = [
     id: 18,
     name: 'Adaptor',
     quadrant: DiscCategory.c,
-    signature: {
-      DiscCategory.d: -2,
-      DiscCategory.i: -1,
-      DiscCategory.s: 1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: -2, DiscCategory.i: -1, DiscCategory.s: 1, DiscCategory.c: 2},
     outstandingTraits:
         'Other people view you as conservative, reserved, stable, and conscientious. In daily activities, you need to follow orders, precedent, rules, and regulations. You are often drawn to jobs requiring meticulous work with things and painstaking attention to detail. You prefer to share responsibility by working as a member of a team. You dislike sudden or abrupt change. You like to look ahead, thereby avoiding unnecessary trouble and risk. You have a passion for impeccability and order. You follow directions carefully in order to turn in an error-free performance.',
     internalDrive:
@@ -337,12 +239,7 @@ const List<DiscPattern> discPatterns = [
     id: 19,
     name: 'Creator',
     quadrant: DiscCategory.c,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: -1,
-      DiscCategory.s: -1,
-      DiscCategory.c: 2,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: -1, DiscCategory.s: -1, DiscCategory.c: 2},
     outstandingTraits:
         'To others, you appear forceful, factual, impulsive, and systematic. You are likely to be highly intelligent but with a flair for disorganisation. You are oriented toward concepts, theories, projections, and probabilities. You investigate facts inexhaustibly and pursue all possible solutions to a problem. You can\'t accept just any answer; you strive unendingly for the best answer. This process results in new and often creative ideas. As a result, many people view you as a perfectionist.',
     internalDrive:
@@ -354,12 +251,7 @@ const List<DiscPattern> discPatterns = [
     id: 20,
     name: 'Individualist',
     quadrant: DiscCategory.c,
-    signature: {
-      DiscCategory.d: 1,
-      DiscCategory.i: 1,
-      DiscCategory.s: 1,
-      DiscCategory.c: -2,
-    },
+    signature: {DiscCategory.d: 1, DiscCategory.i: 1, DiscCategory.s: 1, DiscCategory.c: -2},
     outstandingTraits:
         'People see you as an assertive, persuasive, steady, independent person. You act positively and directly in the face of opposition and will take a forceful stand to fight for your position. You are willing to take chances. You display self-confidence in dealing with others. Although you strive to win people\'s approval, you are reluctant to give up your own point of view. Persistent and persevering, you aren\'t easily swayed once your mind is made up. You can be rigidly independent when force is applied and are exasperating to others who want you to adapt.',
     internalDrive:
@@ -371,12 +263,7 @@ const List<DiscPattern> discPatterns = [
     id: 21,
     name: 'Level Patterns',
     quadrant: null,
-    signature: {
-      DiscCategory.d: 0,
-      DiscCategory.i: 0,
-      DiscCategory.s: 0,
-      DiscCategory.c: 0,
-    },
+    signature: {DiscCategory.d: 0, DiscCategory.i: 0, DiscCategory.s: 0, DiscCategory.c: 0},
     outstandingTraits:
         'People see you as a reliable, congenial, steady, adult person. Your drive for accomplishment is counter-balanced by your need to be right, and as a result, you are sometimes seen as a perfectionist. You cannot accept just any answer; you want the best answer. Sometimes you are decisive, ready to take a stand, firm in conviction, ready to argue a point. At other times, you may compromise, concede, and comply with accepted and expected practice. You can be either tense or surprisingly calm, venturesome or cautious, noticeable or unobtrusive.',
     internalDrive:

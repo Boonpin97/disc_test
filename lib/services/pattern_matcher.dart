@@ -44,7 +44,7 @@ DiscPattern matchPattern(
     if (p.id == 21) continue;
     double dist = 0;
     for (final c in DiscCategory.values) {
-      final diff = normalised[c]! - p.signature[c]!.toDouble();
+      final diff = normalised[c]! - p.signature[c]!;
       dist += diff * diff;
     }
 
